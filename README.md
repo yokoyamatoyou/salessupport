@@ -118,6 +118,12 @@ chmod +x start_local.sh
 ./start_local.sh
 ```
 
+### Python PoC Launcher
+
+```bash
+python poc_launcher.py
+```
+
 ## 環境変数
 
 `.env`ファイルを作成し、以下の環境変数を設定してください：
@@ -198,6 +204,11 @@ make deploy-cloudrun
 を利用して呼び出されます。スキーマに合わない応答は `ValueError`
 として扱われ、呼び出し元で検知できます。
 
+## PostAnalyzerService
+
+このサービスは `services/di_container.py` の DI コンテナでシングルトン登録され、`ServiceLocator` から `EnhancedOpenAIProvider` を取得して動作します。
+設定を変更する場合は `configure_services()` の登録を差し替えるか、`OPENAI_API_KEY` などの環境変数を調整してください。
+
 ## テスト
 
 ```bash
@@ -210,7 +221,7 @@ pytest tests/test_services.py -q
 pytest tests/test_icebreaker.py -q
 pytest tests/test_storage_local.py -q
 
-# パフォーマンステスト
+# パフォーマンステスト（PostAnalyzerService）
 pytest tests/performance/test_post_analyzer.py -q
 ```
 

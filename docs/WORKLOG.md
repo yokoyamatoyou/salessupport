@@ -747,3 +747,19 @@
 - `pytest` で 133 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
+## 2025-10-06
+### Task
+- PostAnalyzerService を DI コンテナ対応にリファクタリングし、パフォーマンステストを追加
+- README に PostAnalyzerService と PoC ランチャーの手順を記載
+  - refs: [services/post_analyzer.py, tests/performance/test_post_analyzer.py, README.md, poc_launcher.py]
+
+### Reviews
+1. **Python上級エンジニア視点**: DI 化により依存関係が明確になり、サービスのテスト容易性が向上。
+2. **UI/UX専門家視点**: 設定方法が README に追記され、利用時の迷いが減った。
+3. **クラウドエンジニア視点**: DI コンテナで構成管理が統一され、環境ごとの差異を最小化できる。
+4. **ユーザー視点**: パフォーマンステストにより応答速度が保証され、安心して利用できる。
+
+### Testing
+- `pytest -q`
+- `pytest tests/performance/test_post_analyzer.py -q`
+- Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
