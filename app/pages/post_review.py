@@ -3,10 +3,9 @@
 """
 import streamlit as st
 import json
-from typing import List
 from core.models import SalesType
 from services.post_analyzer import PostAnalyzerService
-from services.settings_manager import SettingsManager
+from services.di_container import ServiceLocator
 from services.storage_service import get_storage_provider
 from datetime import datetime
 from components.sales_type import sales_type_selectbox
@@ -130,11 +129,8 @@ def show_post_review_page():
         
         try:
             with st.spinner("🤖 AIが商談内容を分析中..."):
-                # 設定マネージャーを初期化
-                settings_manager = SettingsManager()
-                
-                # 分析サービスを初期化
-                analyzer = PostAnalyzerService(settings_manager)
+                # 分析サービスを取得
+                analyzer = ServiceLocator.get_service(PostAnalyzerService)
                 
                 # 分析実行
                 analysis_result = analyzer.analyze_meeting(
