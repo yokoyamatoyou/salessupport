@@ -209,6 +209,9 @@ pytest tests/test_validation.py -q
 pytest tests/test_services.py -q
 pytest tests/test_icebreaker.py -q
 pytest tests/test_storage_local.py -q
+
+# パフォーマンステスト
+pytest tests/performance/test_post_analyzer.py -q
 ```
 
 ## Makefile コマンド
@@ -293,7 +296,6 @@ repo/
 - [ ] フェーズ8：GCP移行（シングルテナント→マルチテナント）
 - [ ] フェーズ9：Webリサーチ実装
 - [ ] フェーズ10：品質・セキュリティ
-
 ## プロジェクトドキュメント
 
 - 進捗ログ: [docs/PROGRESS.md](docs/PROGRESS.md)
