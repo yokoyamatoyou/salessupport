@@ -1,0 +1,15 @@
+{
+  "short_term": {
+    "openers": {"call": "オフライン", "visit": "オフライン", "email": "オフライン"},
+    "discovery": ["オフライン"],
+    "differentiation": [{"vs": "オフライン", "talk": "オフライン"}],
+    "objections": [{"type": "オフライン", "script": "オフライン"}],
+    "next_actions": ["オフライン"],
+    "kpi": {"next_meeting_rate": "0%", "poc_rate": "0%"},
+    "summary": "オフラインスタブ"
+  },
+  "mid_term": {
+    "plan_weeks_4_12": ["オフライン"]
+  },
+  "offline": true
+}

@@ -1,0 +1,254 @@
+/* モバイルファーストCSS - タッチフレンドリー設計 */
+
+/* 基本モバイル対応 */
+@media (max-width: 640px) {
+  .block-container {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  .stButton>button {
+    width: 100%;
+    min-height: 48px;
+    font-size: 16px;
+    border-radius: 8px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .stTextInput>div>div>input,
+  .stTextArea>div>div>textarea,
+  .stSelectbox>div>div>select {
+    font-size: 16px; /* iOSでの自動ズーム防止 */
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    transition: border-color 0.2s ease;
+  }
+
+  .stTextInput>div>div>input:focus,
+  .stTextArea>div>div>textarea:focus,
+  .stSelectbox>div>div>select:focus {
+    border-color: #3b82f6;
+    outline: none;
+  }
+
+  section[data-testid="stSidebar"] { display: none; }
+}
+
+/* タブレット対応 */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .block-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .stButton>button {
+    min-height: 44px;
+    font-size: 15px;
+  }
+}
+
+/* モバイル専用コンポーネントスタイル */
+.mobile-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: box-shadow 0.2s ease;
+}
+
+.mobile-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-button {
+  min-height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+.mobile-button:active {
+  transform: scale(0.98);
+}
+
+.mobile-input {
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.mobile-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* 診断UIスタイル */
+.diagnosis-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #3b82f6;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 16px 0;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.diagnosis-option {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 8px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  font-size: 16px;
+}
+
+.diagnosis-option:hover {
+  border-color: #3b82f6;
+  background: #f0f9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.diagnosis-option:active {
+  transform: translateY(0);
+}
+
+/* プログレス表示 */
+.progress-container {
+  background: #e5e7eb;
+  border-radius: 10px;
+  height: 8px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+/* 成功メッセージ */
+.success-message {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 16px 0;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* スタイル情報カード */
+.style-info-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.style-strength {
+  background: #f0f9ff;
+  border-left: 4px solid #3b82f6;
+  padding: 12px 16px;
+  margin: 8px 0;
+  border-radius: 0 8px 8px 0;
+}
+
+/* ボトムナビゲーション（モバイル） */
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-item.active {
+  background: #3b82f6;
+  color: white;
+}
+
+.nav-item:hover {
+  background: #e5e7eb;
+}
+
+/* スクロール改善 */
+@media (max-width: 640px) {
+  .stApp {
+    overflow-x: hidden;
+  }
+
+  .stMarkdown {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* 長いコンテンツのスクロール改善 */
+  .element-container {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+/* アクセシビリティ改善 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 高コントラストモード対応 */
+@media (prefers-contrast: high) {
+  .mobile-card {
+    border: 2px solid #000;
+  }
+
+  .diagnosis-card {
+    border: 3px solid #000;
+  }
+}

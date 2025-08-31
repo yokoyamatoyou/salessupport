@@ -1,0 +1,25 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: sales-saas
+spec:
+  template:
+    spec:
+      containers:
+        - image: REGION-docker.pkg.dev/PROJECT_ID/REPOSITORY_NAME/sales-saas:latest
+          # Replace REGION, PROJECT_ID, and REPOSITORY_NAME with your Google Cloud settings.
+          env:
+            - name: APP_ENV
+              value: "production"
+            - name: DATA_DIR
+              value: "/tmp"
+            - name: PORT
+              value: "8080"
+            - name: STORAGE_PROVIDER
+              value: "firestore"
+            - name: FIRESTORE_TENANT_ID
+              value: "tenant-123"
+            - name: OPENAI_API_SECRET_NAME
+              value: "openai-api-key"
+          ports:
+            - containerPort: 8080

@@ -1,0 +1,13 @@
+{
+  "IT 最新ニュース": [
+    {
+      "title": "キャッシュニュース",
+      "url": "https://example.com/offline",
+      "snippet": "オフラインキャッシュからのニュース",
+      "source": "cache",
+      "published_at": null,
+      "score": 1.0,
+      "reasons": ["cache"]
+    }
+  ]
+}
