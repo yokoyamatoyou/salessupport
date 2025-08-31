@@ -105,3 +105,42 @@ def test_newsapi_with_fallback_uses_stub(mocker):
     mocker.patch.object(provider, "_rank_results", side_effect=lambda items, q, n: items[:n])
     results = provider._search_newsapi_with_fallback("q", 1)
     assert results[0]["source"] == "stub"
+
+
+def test_search_cse_mode(monkeypatch):
+    monkeypatch.setenv("SEARCH_PROVIDER", "cse")
+    provider = WebSearchProvider()
+    monkeypatch.setattr(
+        provider,
+        "_search_cse_with_fallback",
+        lambda q, n: [{"title": "a", "url": "https://cse.com", "snippet": "s", "source": "cse", "published_at": None}],
+    )
+    monkeypatch.setattr(provider, "_rank_results", lambda items, q, n: items[:n])
+    results = provider.search("q", num=1)
+    assert results[0]["source"] == "cse"
+
+
+def test_search_newsapi_mode(monkeypatch):
+    monkeypatch.setenv("SEARCH_PROVIDER", "newsapi")
+    provider = WebSearchProvider()
+    monkeypatch.setattr(
+        provider,
+        "_search_newsapi_with_fallback",
+        lambda q, n: [{"title": "a", "url": "https://n.com", "snippet": "s", "source": "newsapi", "published_at": None}],
+    )
+    monkeypatch.setattr(provider, "_rank_results", lambda items, q, n: items[:n])
+    results = provider.search("q", num=1)
+    assert results[0]["source"] == "newsapi"
+
+
+def test_search_hybrid_mode(monkeypatch):
+    monkeypatch.setenv("SEARCH_PROVIDER", "hybrid")
+    provider = WebSearchProvider()
+    monkeypatch.setattr(
+        provider,
+        "_search_hybrid",
+        lambda q, n, limit: [{"title": "a", "url": "https://h.com", "snippet": "s", "source": "hybrid", "published_at": None}],
+    )
+    monkeypatch.setattr(provider, "_rank_results", lambda items, q, n: items[:n])
+    results = provider.search("q", num=1)
+    assert results[0]["source"] == "hybrid"

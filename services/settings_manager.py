@@ -106,9 +106,14 @@ class SettingsManager:
     def get_search_config(self) -> Dict[str, Any]:
         """検索設定を取得"""
         settings = self.load_settings()
+        env_provider = os.getenv("SEARCH_PROVIDER")
+        provider = env_provider or settings.search_provider
         return {
-            "provider": settings.search_provider,
-            "limit": settings.search_results_limit
+            "provider": provider,
+            "limit": settings.search_results_limit,
+            "trusted_domains": settings.search_trusted_domains,
+            "time_window_days": settings.search_time_window_days,
+            "language": settings.search_language,
         }
     
     def get_ui_config(self) -> Dict[str, Any]:

@@ -19,8 +19,8 @@ from services.utils import escape_braces, sanitize_for_prompt
 
 class SearchEnhancerService:
     """検索機能の高度化サービス"""
-    
-    def __init__(self, settings_manager=None, llm_provider=None):
+
+    def __init__(self, settings_manager=None, llm_provider=None, search_provider=None):
         self.settings_manager = settings_manager
         self.logger = Logger()
         self.error_handler = ErrorHandler(self.logger)
@@ -35,7 +35,7 @@ class SearchEnhancerService:
                 self.logger.warning(f"OpenAIProviderの初期化に失敗: {e}")
                 self.llm_provider = None
 
-        self.search_provider = WebSearchProvider(settings_manager)
+        self.search_provider = search_provider or WebSearchProvider(settings_manager)
         
     def _load_prompts(self) -> Dict[str, Any]:
         """プロンプトテンプレートを読み込み"""

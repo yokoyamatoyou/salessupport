@@ -167,35 +167,66 @@ def configure_services() -> None:
     from services.security_utils import PromptSecurityManager
     from providers.llm_openai import EnhancedOpenAIProvider
     from services.usage_meter import UsageMeter
+    from services.settings_manager import SettingsManager
+    from providers.search_provider import WebSearchProvider
+    from services.search_enhancer import SearchEnhancerService
 
     # LLMプロバイダー
-    _default_collection.add_singleton(
+    _default_collection.add_factory(
         EnhancedOpenAIProvider,
-        factory=lambda: EnhancedOpenAIProvider()
+        lambda: EnhancedOpenAIProvider(),
+        lifetime=ServiceLifetime.SINGLETON,
     )
 
     # プロンプトマネージャー
-    _default_collection.add_singleton(
+    _default_collection.add_factory(
         EnhancedPromptManager,
-        factory=lambda: EnhancedPromptManager()
+        lambda: EnhancedPromptManager(),
+        lifetime=ServiceLifetime.SINGLETON,
     )
 
     # スキーママネージャー
-    _default_collection.add_singleton(
+    _default_collection.add_factory(
         UnifiedSchemaManager,
-        factory=lambda: UnifiedSchemaManager()
+        lambda: UnifiedSchemaManager(),
+        lifetime=ServiceLifetime.SINGLETON,
     )
 
     # セキュリティマネージャー
-    _default_collection.add_singleton(
+    _default_collection.add_factory(
         PromptSecurityManager,
-        factory=lambda: PromptSecurityManager()
+        lambda: PromptSecurityManager(),
+        lifetime=ServiceLifetime.SINGLETON,
     )
 
     # ユーセージメーター
     _default_collection.add_singleton(
         UsageMeter,
         instance=UsageMeter()
+    )
+
+    # 設定マネージャー
+    _default_collection.add_singleton(
+        SettingsManager,
+        instance=SettingsManager()
+    )
+
+    # Web検索プロバイダー
+    _default_collection.add_factory(
+        WebSearchProvider,
+        lambda: WebSearchProvider(_default_provider.get_service(SettingsManager)),
+        lifetime=ServiceLifetime.SINGLETON,
+    )
+
+    # 検索高度化サービス
+    _default_collection.add_factory(
+        SearchEnhancerService,
+        lambda: SearchEnhancerService(
+            _default_provider.get_service(SettingsManager),
+            _default_provider.get_service_optional(EnhancedOpenAIProvider),
+            _default_provider.get_service(WebSearchProvider),
+        ),
+        lifetime=ServiceLifetime.SINGLETON,
     )
 
     # サービスロケーターの設定
