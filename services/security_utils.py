@@ -184,10 +184,13 @@ class TokenTracker:
         if not usage:
             return {"input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
 
+        def _safe_int(val: Any) -> int:
+            return val if isinstance(val, int) else 0
+
         token_usage = {
-            "input_tokens": getattr(usage, "prompt_tokens", 0),
-            "output_tokens": getattr(usage, "completion_tokens", 0),
-            "total_tokens": getattr(usage, "total_tokens", 0)
+            "input_tokens": _safe_int(getattr(usage, "prompt_tokens", 0)),
+            "output_tokens": _safe_int(getattr(usage, "completion_tokens", 0)),
+            "total_tokens": _safe_int(getattr(usage, "total_tokens", 0)),
         }
 
         # 使用履歴の記録
