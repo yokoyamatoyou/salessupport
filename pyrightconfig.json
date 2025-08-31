@@ -1,0 +1,28 @@
+{
+  "include": [
+    "app",
+    "core",
+    "services",
+    "providers",
+    "tests"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.*",
+    "data/**"
+  ],
+  "reportMissingImports": "error",
+  "reportMissingTypeStubs": "warning",
+  "pythonVersion": "3.11",
+  "typeCheckingMode": "basic",
+  "useLibraryCodeForTypes": true,
+  "reportUnknownMemberType": "none",
+  "reportUnknownVariableType": "none",
+  "reportUnknownArgumentType": "none",
+  "reportPrivateUsage": "none",
+  "reportConstantRedefinition": "error",
+  "reportIncompatibleMethodOverride": "error",
+  "reportIncompatibleVariableOverride": "error",
+  "reportOverlappingOverloads": "error"
+}
