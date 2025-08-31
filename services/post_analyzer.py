@@ -1,56 +1,36 @@
-"""
-商談後ふりかえり解析サービス
-"""
-import yaml
+"""商談後ふりかえり解析サービス"""
+
 import os
-from typing import Dict, Any, Optional
+import yaml
+from typing import Dict, Any
+
 from core.models import SalesType
-from providers.llm_openai import OpenAIProvider
+from providers.llm_openai import EnhancedOpenAIProvider
 from services.error_handler import ServiceError, ConfigurationError
 from services.logger import Logger
 from services.utils import escape_braces, sanitize_for_prompt
 
 logger = Logger("PostAnalyzerService")
 
-_global_llm_provider: Optional[OpenAIProvider] = None
-
 
 class PostAnalyzerService:
     """商談後ふりかえり解析サービス"""
 
-    def __init__(self, settings_manager=None):
+    def __init__(self) -> None:
         """初期化"""
-        self.settings_manager = settings_manager
         self.llm_provider = None
         self.prompt_template = None
 
         # プロンプトテンプレートの読み込み
         self._load_prompt_template()
 
-        # LLMプロバイダーの初期化（共有インスタンスを利用）
-        global _global_llm_provider
-        if _global_llm_provider is not None:
-            self.llm_provider = _global_llm_provider
-            return
+        # LLMプロバイダーの取得
+        try:
+            from services.di_container import ServiceLocator
 
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key and settings_manager:
-            try:
-                llm_config = settings_manager.get_llm_config()
-                api_key = llm_config.get("api_key")
-                if api_key and not os.getenv("OPENAI_API_KEY"):
-                    os.environ["OPENAI_API_KEY"] = api_key
-            except Exception as e:
-                logger.warning(f"LLM設定の取得に失敗: {e}")
-
-        if api_key:
-            try:
-                _global_llm_provider = OpenAIProvider(settings_manager)
-                self.llm_provider = _global_llm_provider
-            except Exception as e:
-                logger.warning(f"LLMプロバイダーの初期化に失敗: {e}")
-        else:
-            logger.warning("OpenAI APIキーが設定されていません")
+            self.llm_provider = ServiceLocator.get_service(EnhancedOpenAIProvider)
+        except Exception as e:  # pragma: no cover - initialization failure
+            logger.warning(f"LLMプロバイダーの取得に失敗: {e}")
     
     def _load_prompt_template(self):
         """プロンプトテンプレートを読み込み"""
@@ -87,10 +67,8 @@ class PostAnalyzerService:
             解析結果の辞書
         """
         if not self.llm_provider:
-            logger.warning("LLMプロバイダーが利用できません。フォールバック解析を実行します")
-            return self._generate_fallback_analysis(
-                meeting_content, sales_type, industry, product
-            )
+            logger.error("LLMプロバイダーが利用できません")
+            raise ServiceError("LLMプロバイダーが利用できません", "dependency_missing")
         
         try:
             # プロンプトの構築
