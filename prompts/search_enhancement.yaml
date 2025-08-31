@@ -1,0 +1,180 @@
+# 検索機能の高度化プロンプト
+
+## 検索クエリ最適化
+query_optimization:
+  system: |
+    あなたは検索クエリ最適化の専門家です。ユーザーの検索意図を理解し、
+    より効果的な検索クエリを生成してください。
+  
+  user: |
+    以下の検索クエリを最適化してください：
+    元のクエリ: ${original_query}
+    業界: ${industry}
+    目的: ${purpose}
+    
+    最適化されたクエリを3つ提案し、それぞれの理由を説明してください。
+  schema:
+    type: object
+    properties:
+      optimized_queries:
+        type: array
+        items:
+          type: object
+          properties:
+            query:
+              type: string
+            reason:
+              type: string
+            expected_improvement:
+              type: string
+          required: [query, reason, expected_improvement]
+          additionalProperties: false
+        minItems: 1
+      search_strategy:
+        type: string
+    required: [optimized_queries, search_strategy]
+    additionalProperties: false
+
+## 検索結果の品質評価
+quality_assessment:
+  system: |
+    あなたは検索結果の品質評価の専門家です。検索結果の信頼性、関連性、
+    時効性を総合的に評価してください。
+  
+  user: |
+    以下の検索結果を品質評価してください：
+    検索クエリ: ${query}
+    検索結果: ${search_results}
+    
+    各結果について、信頼性、関連性、時効性の観点から評価し、
+    総合スコアを算出してください。
+  schema:
+    type: object
+    properties:
+      quality_scores:
+        type: array
+        items:
+          type: object
+          properties:
+            url:
+              type: string
+            reliability_score:
+              type: number
+            relevance_score:
+              type: number
+            freshness_score:
+              type: number
+            overall_score:
+              type: number
+            reasoning:
+              type: string
+            improvement_suggestions:
+              type: array
+              items:
+                type: string
+          required: [url, reliability_score, relevance_score, freshness_score, overall_score, reasoning, improvement_suggestions]
+          additionalProperties: false
+        minItems: 1
+      overall_assessment:
+        type: string
+    required: [quality_scores, overall_assessment]
+    additionalProperties: false
+
+## 業界別検索戦略
+industry_search_strategy:
+  system: |
+    あなたは業界別の検索戦略の専門家です。各業界の特性に応じた
+    最適な検索アプローチを提案してください。
+  
+  user: |
+    以下の業界について、最適な検索戦略を提案してください：
+    業界: ${industry}
+    検索目的: ${purpose}
+    対象期間: ${time_period}
+    
+    信頼できる情報源、キーワード戦略、時効性の考慮事項を含めて
+    包括的な検索戦略を提案してください。
+  
+  response_format: |
+    {
+      "trusted_sources": ["信頼できる情報源1", "信頼できる情報源2"],
+      "keyword_strategy": {
+        "primary_keywords": ["主要キーワード1", "主要キーワード2"],
+        "secondary_keywords": ["補助キーワード1", "補助キーワード2"],
+        "exclude_keywords": ["除外キーワード1", "除外キーワード2"]
+      },
+      "time_considerations": "時効性の考慮事項",
+      "search_approach": "推奨する検索アプローチ",
+      "quality_indicators": ["品質指標1", "品質指標2"]
+    }
+
+## 検索結果の統合と要約
+result_integration:
+  system: |
+    あなたは検索結果の統合と要約の専門家です。複数の検索結果から
+    一貫性のある洞察を抽出し、ユーザーにとって価値のある情報を
+    提供してください。
+  
+  user: |
+    以下の検索結果を統合・要約してください：
+    検索クエリ: ${query}
+    検索結果: ${search_results}
+    
+    主要な洞察、トレンド、機会、リスクを抽出し、
+    アクション可能な推奨事項を提示してください。
+  
+  response_format: |
+    {
+      "key_insights": ["主要洞察1", "主要洞察2"],
+      "trends": ["トレンド1", "トレンド2"],
+      "opportunities": ["機会1", "機会2"],
+      "risks": ["リスク1", "リスク2"],
+      "recommendations": [
+        {
+          "action": "推奨アクション",
+          "priority": "高/中/低",
+          "rationale": "推奨理由",
+          "expected_outcome": "期待される結果"
+        }
+      ],
+      "confidence_level": "信頼度（高/中/低）",
+      "data_gaps": "データの不足や制限事項"
+    }
+
+## 検索品質の継続改善
+continuous_improvement:
+  system: |
+    あなたは検索品質の継続改善の専門家です。検索結果の品質を
+    継続的に向上させるための戦略と指標を提案してください。
+  
+  user: |
+    検索品質の継続改善について、以下の観点から戦略を提案してください：
+    現在の課題: ${current_challenges}
+    目標: ${improvement_goals}
+    利用可能なリソース: ${available_resources}
+    
+    短期的な改善策、長期的な戦略、測定可能な指標を含めて
+    包括的な改善計画を提案してください。
+  
+  response_format: |
+    {
+      "short_term_improvements": [
+        {
+          "action": "改善アクション",
+          "timeline": "実施期間",
+          "expected_impact": "期待される効果",
+          "success_metrics": ["成功指標1", "成功指標2"]
+        }
+      ],
+      "long_term_strategy": {
+        "vision": "長期的なビジョン",
+        "key_initiatives": ["主要イニシアチブ1", "主要イニシアチブ2"],
+        "milestones": ["マイルストーン1", "マイルストーン2"]
+      },
+      "measurement_framework": {
+        "quality_metrics": ["品質指標1", "品質指標2"],
+        "user_satisfaction_metrics": ["ユーザー満足度指標1", "ユーザー満足度指標2"],
+        "business_impact_metrics": ["ビジネスインパクト指標1", "ビジネスインパクト指標2"]
+      },
+      "implementation_plan": "実装計画の概要"
+    }
