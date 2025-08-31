@@ -170,6 +170,7 @@ def configure_services() -> None:
     from services.settings_manager import SettingsManager
     from providers.search_provider import WebSearchProvider
     from services.search_enhancer import SearchEnhancerService
+    from services.post_analyzer import PostAnalyzerService
 
     # LLMプロバイダー
     _default_collection.add_factory(
@@ -226,6 +227,13 @@ def configure_services() -> None:
             _default_provider.get_service_optional(EnhancedOpenAIProvider),
             _default_provider.get_service(WebSearchProvider),
         ),
+        lifetime=ServiceLifetime.SINGLETON,
+    )
+
+    # 商談後ふりかえり解析サービス
+    _default_collection.add_factory(
+        PostAnalyzerService,
+        lambda: PostAnalyzerService(),
         lifetime=ServiceLifetime.SINGLETON,
     )
 
