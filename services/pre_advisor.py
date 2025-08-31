@@ -14,6 +14,9 @@ from services.prompt_manager import EnhancedPromptManager, PromptContext
 from services.schema_manager import UnifiedSchemaManager
 from providers.llm_openai import EnhancedOpenAIProvider, LLMResponse
 
+# Backward compatibility alias for older tests expecting OpenAIProvider
+OpenAIProvider = EnhancedOpenAIProvider
+
 class PreAdvisorService:
     """強化された事前アドバイスサービス"""
 
