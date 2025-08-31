@@ -23,22 +23,31 @@ class WebSearchProvider:
         """設定から検索設定を取得"""
         if self.settings_manager:
             try:
-                settings = self.settings_manager.load_settings()
-                # 型をサニタイズ（Mock対策）
-                provider = getattr(settings, 'search_provider', self.search_provider)
-                limit = getattr(settings, 'search_results_limit', 5)
-                doms = getattr(settings, 'search_trusted_domains', None)
+                cfg = self.settings_manager.get_search_config()
+                provider = cfg.get("provider", self.search_provider)
+                try:
+                    provider = provider.value  # type: ignore[attr-defined]
+                except Exception:
+                    pass
+                provider = str(provider)
+                limit = cfg.get("limit", 5)
+                if not isinstance(limit, int):
+                    try:
+                        limit = int(limit)  # type: ignore[arg-type]
+                    except Exception:
+                        limit = 5
+                doms = cfg.get("trusted_domains", [])
                 if not isinstance(doms, list):
                     doms = []
-                wnd = getattr(settings, 'search_time_window_days', 60)
+                wnd = cfg.get("time_window_days", 60)
                 if not isinstance(wnd, int):
                     try:
                         wnd = int(wnd)  # type: ignore[arg-type]
                     except Exception:
                         wnd = 60
-                lang = getattr(settings, 'search_language', 'ja')
+                lang = cfg.get("language", "ja")
                 if not isinstance(lang, str):
-                    lang = 'ja'
+                    lang = "ja"
                 return {
                     "provider": provider,
                     "limit": limit,

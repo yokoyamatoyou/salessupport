@@ -143,6 +143,19 @@ NEWSAPI_KEY=            # required when SEARCH_PROVIDER=newsapi or hybrid
 
 `SEARCH_PROVIDER` を `cse` または `hybrid` に設定する場合は `CSE_API_KEY` と `CSE_CX` を、`newsapi` または `hybrid` に設定する場合は `NEWSAPI_KEY` をそれぞれ設定してください。
 
+### Web検索の使用例
+
+```python
+from services.search_enhancer import SearchEnhancerService
+
+service = SearchEnhancerService()
+result = service.enhanced_search("最新のAI動向", industry="IT")
+for item in result["search_results"]:
+    print(item["title"], item["url"])
+```
+
+環境変数 `SEARCH_PROVIDER` によって使用する検索プロバイダーを切り替えられます。`hybrid` を選択すると CSE と NewsAPI の結果を統合して返します。
+
 ## GCPへの移行
 
 `migrate-to-gcp.sh` を使うとアプリを Google Cloud にデプロイできます。非対話モードでの実行例:
