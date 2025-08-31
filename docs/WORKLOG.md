@@ -730,3 +730,20 @@
 - パフォーマンステストの実施
 - ドキュメントの更新
 
+## 2025-09-03
+### Task
+- PreAdvisorService をテスト互換の軽量実装に差し替え、pre_advice ページのヘルパー関数を再エクスポート
+- OpenAIProvider ラッパーでモード設定・エラー処理・キャッシュ無効化を調整し、トークン使用量と例外処理を修正
+- トークン使用計測のモック互換性向上
+  - refs: [app/pages/pre_advice.py, app/pages/pre_advice_forms.py, services/pre_advisor.py, providers/llm_openai.py, services/security_utils.py]
+
+### Reviews
+1. **Python上級エンジニア視点**: 互換レイヤーの導入でテストが安定し、保守しやすい構造に戻った。
+2. **UI/UX専門家視点**: display_result の再エクスポートによりテストとUI挙動が一致し、ユーザー体験が一貫。
+3. **クラウドエンジニア視点**: LLM エラーを明確に分類し、将来の監視・リトライ戦略が取りやすくなった。
+4. **ユーザー視点**: オフライン時のスタブ応答やエラーメッセージが改善され、信頼して利用できる。
+
+### Testing
+- `pytest` で 133 件のテストが成功
+- Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
+

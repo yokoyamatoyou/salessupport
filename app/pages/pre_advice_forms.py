@@ -11,6 +11,7 @@ from components.sales_type import get_sales_type_emoji
 from app.components.sales_style_diagnosis import SalesStyleDiagnosis
 from app.components.smart_defaults import SmartDefaultsManager
 from core.models import SalesInput, SalesType, SalesStyle
+from .pre_advice_handlers import update_form_data
 
 
 def render_sales_style_selection() -> Optional[SalesStyle]:

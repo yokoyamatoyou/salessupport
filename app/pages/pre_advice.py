@@ -19,6 +19,7 @@ from core.logging_config import get_logger
 from services.crm_importer import CRMImporter
 from services.pre_advisor import PreAdvisorService
 from services.settings_manager import SettingsManager
+from core.models import SalesInput
 from translations import t
 
 # Refactored sub modules which contain the detailed form and processing logic
@@ -35,9 +36,35 @@ from .pre_advice_handlers import (
     validate_input,
 )
 from .pre_advice_storage import save_pre_advice
-from .pre_advice_ui import display_result, display_advice, render_save_section
+from .pre_advice_ui import (
+    display_advice as _display_advice_impl,
+    render_save_section as _render_save_section_impl,
+)
 
 logger = get_logger(__name__)
+
+
+def display_advice(advice: dict) -> None:
+    """Exported wrapper to allow tests to patch the display function."""
+
+    _display_advice_impl(advice)
+
+
+def render_save_section(sales_input: SalesInput, advice: dict) -> None:
+    """Wrapper around the save section renderer."""
+
+    _render_save_section_impl(sales_input, advice)
+
+
+def display_result(advice: dict, sales_input: SalesInput) -> None:
+    """Display the generated advice result and save controls."""
+
+    if st.session_state.get("selected_icebreaker"):
+        st.markdown("### ❄️ アイスブレイク（選択中）")
+        st.markdown(f"> {st.session_state.selected_icebreaker}")
+
+    display_advice(advice)
+    render_save_section(sales_input, advice)
 
 
 def get_screen_width() -> int:

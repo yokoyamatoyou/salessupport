@@ -34,34 +34,38 @@ logger = logging.getLogger(__name__)
 
 # モデル設定
 MODEL_CONFIGS = {
+    "gpt-4o-mini": {
+        "max_tokens": 4096,
+        "supports_reasoning": False,
+        "supports_structured_output": True,
+    },
     "gpt-4.1-mini-2025-04-14": {
         "max_tokens": 32768,
         "context_window": 32768,
         "supports_reasoning": True,
-        "supports_structured_output": True
-    }
+        "supports_structured_output": True,
+    },
 }
 
-# モード別設定
+# モード別設定（旧インターフェース互換）
 MODE_CONFIGS = {
     "speed": {
         "temperature": 0.3,
         "top_p": 0.9,
         "reasoning_effort": "low",
-        "max_tokens": 2000
+        "max_tokens": 1200,
     },
     "deep": {
-        "temperature": 0.1,
-        "top_p": 0.95,
-        "reasoning_effort": "high",
-        "max_tokens": 4000
+        "temperature": 0.2,
+        "reasoning_effort": "medium",
+        "max_tokens": 2000,
     },
     "creative": {
         "temperature": 0.7,
         "top_p": 0.9,
-        "reasoning_effort": "medium",
-        "max_tokens": 1500
-    }
+        "reasoning_effort": "low",
+        "max_tokens": 800,
+    },
 }
 
 
@@ -295,30 +299,33 @@ class EnhancedOpenAIProvider:
             "model": self.config.model,
             "messages": [
                 {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt}
+                {"role": "user", "content": prompt},
             ],
             "temperature": mode_config["temperature"],
             "max_tokens": mode_config["max_tokens"],
-            "top_p": mode_config.get("top_p", 1.0),
         }
+        if "top_p" in mode_config:
+            request_params["top_p"] = mode_config["top_p"]
 
         # Reasoning effort（対応モデルの場合）
         if model_config.get("supports_reasoning"):
             request_params["reasoning_effort"] = mode_config["reasoning_effort"]
 
         # Structured output（対応モデルの場合）
-        if json_schema and model_config.get("supports_structured_output"):
+        if json_schema and model_config.get("supports_structured_output", True):
             request_params["response_format"] = {
                 "type": "json_schema",
-                "json_schema": {
-                    "name": "response_schema",
-                    "schema": json_schema,
-                    "strict": True
-                }
+                "json_schema": json_schema,
+                "strict": True,
             }
 
         # API呼び出し（リトライ付き）
-        response = self._execute_with_retry(request_params, user_id)
+        try:
+            response = self._execute_with_retry(request_params, user_id)
+        except RateLimitError as e:
+            raise LLMError("APIレート制限に達しました。しばらく待ってから再試行してください。") from e
+        except APIError as e:
+            raise LLMError(f"LLM呼び出しでエラーが発生しました: {e}") from e
 
         # 応答処理
         choice = response.choices[0]
@@ -361,24 +368,24 @@ class EnhancedOpenAIProvider:
         stop=stop_after_attempt(3),
         wait=wait_exponential(min=1, max=8),
         retry=retry_if_exception_type((RateLimitError, APIError)),
-        reraise=True
+        reraise=True,
     )
     def _execute_with_retry(self, request_params: Dict[str, Any], user_id: str):
-        """リトライ付きでAPI実行"""
+        """Call OpenAI with retry for rate limit and transient errors."""
         try:
             return self.client.chat.completions.create(**request_params)
         except RateLimitError as e:
             logger.error("Rate limit exceeded", exc_info=e)
-            raise LLMError("APIレート制限に達しました。しばらく待ってから再試行してください。") from e
+            raise
         except BadRequestError as e:
             logger.error("Bad request", exc_info=e)
-            raise LLMError("リクエストが無効です。") from e
+            raise LLMError("APIクォータが不足しています") from e
         except AuthenticationError as e:
             logger.error("Invalid API key", exc_info=e)
-            raise LLMError("無効なAPIキーです。OPENAI_API_KEYを確認してください。") from e
+            raise LLMError("無効なAPIキーです") from e
         except APIError as e:
             logger.error("OpenAI API error", exc_info=e)
-            raise LLMError(f"LLM呼び出しでエラーが発生しました: {e}") from e
+            raise
 
     def _validate_schema(self, response: Dict[str, Any], expected_schema: Dict[str, Any]) -> bool:
         """スキーマ検証"""
@@ -441,28 +448,35 @@ class EnhancedOpenAIProvider:
 
 # 後方互換性のためのラッパークラス
 class OpenAIProvider:
-    """後方互換性のためのラッパークラス"""
+    """Compatibility wrapper exposing the original simple interface."""
 
     def __init__(self, settings_manager=None):
-        self.enhanced_provider = EnhancedOpenAIProvider()
         self.settings_manager = settings_manager
 
+        model = os.getenv("OPENAI_MODEL")
+        temperature = 0.3
+        max_tokens = 1200
+        if settings_manager:
+            settings = settings_manager.load_settings()
+            temperature = getattr(settings, "temperature", temperature)
+            max_tokens = getattr(settings, "max_tokens", max_tokens)
+            model = model or getattr(settings, "openai_model", None)
+
+        # Clamp values to safe ranges
+        temperature = max(0.0, min(2.0, temperature))
+        max_tokens = max(1, min(4000, max_tokens))
+
+        config = LLMConfig(model=model or "gpt-4o-mini", temperature=temperature, max_tokens=max_tokens)
+        self.enhanced_provider = EnhancedOpenAIProvider(config=config)
+
     def _get_default_modes(self):
-        """古いインターフェースとの互換性維持"""
+        """Recreate the legacy MODES dictionary with clamped values."""
+        t = self.enhanced_provider.config.temperature
+        max_tok = self.enhanced_provider.config.max_tokens
         return {
-            "speed": {
-                "temperature": 0.3,
-                "top_p": 0.9,
-                "max_tokens": 1200
-            },
-            "deep": {
-                "temperature": 0.2,
-                "max_tokens": 2000
-            },
-            "creative": {
-                "temperature": 0.7,
-                "max_tokens": 800
-            }
+            "speed": {"temperature": t, "top_p": 0.9, "max_tokens": max_tok},
+            "deep": {"temperature": round(t * 0.8, 3), "max_tokens": max_tok},
+            "creative": {"temperature": t, "max_tokens": int(max_tok * 0.8)},
         }
 
     @property
@@ -486,7 +500,8 @@ class OpenAIProvider:
                 prompt=prompt,
                 mode=mode,
                 json_schema=json_schema,
-                user_id=user_id
+                user_id=user_id,
+                use_cache=False,
             )
 
             # JSONスキーマがある場合はパースして返す
