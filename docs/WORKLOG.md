@@ -1,7 +1,7 @@
 # Work Log
 
 テスト環境の Python および主要ライブラリのバージョンは各 `### Testing` セクションに記載し、バージョンが変化した場合は次回ログで更新する。
-## 2024-04-27
+## 001
 ### Task
 - Set up work logging files: added WORKLOG.md and updated AGENT.md to document the new logging rule requiring four perspective reviews per task.
   - refs: [AGENT.md, WORKLOG.md] (b780c7a)
@@ -16,7 +16,7 @@
 - `pytest -q` で 74 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-08-28
+## 002
 ### Task
 - AGENT.md にフェーズ進捗チェックボックスを追加
   - refs: [AGENT.md] (75baaf1)
@@ -33,7 +33,7 @@
 - `pytest -q` が 75 件成功
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-08-29
+## 003
 ### Task
 - pre_adviceフォームで説明/競合の入力モード切替時に非選択値をクリアし、XORバリデーションエラーを回避するよう修正
   - refs: [app/pages/pre_advice.py] (dddbd4a)
@@ -48,7 +48,7 @@
 - `pytest -q` で 75 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-08-30
+## 004
 ### Task
 - PostAnalyzerService が環境変数または設定マネージャーから API キーを取得し、共有 OpenAIProvider を再利用するよう修正
   - refs: [services/post_analyzer.py] (8321c16)
@@ -69,7 +69,7 @@
 - `pytest -q` で 75 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-08-31
+## 005
 ### Task
  - pre_advice ページで `streamlit` を明示的にインポートし、依存関係の順序を整理
   - refs: [app/pages/pre_advice.py]
@@ -84,7 +84,7 @@
 - `pytest -q` で 81 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-09-01
+## 006
 ### Task
 - OpenAIProvider.validate_schema を jsonschema を用いた完全検証に変更し、依存関係を追加
 - 不正スキーマの ServiceError を検証するテストケースを追加
@@ -99,7 +99,7 @@
 ### Testing
 - `pytest -q` （コマンド未見つかりのため実行不可）
 
-## 2025-09-02
+## 007
 ### Task
 - OpenAIProvider が環境変数フォールバック付きで GCP Secret Manager から API キーを取得するよう更新
   - refs: [providers/llm_openai.py]
@@ -118,7 +118,7 @@
 - `pytest -q` で 82 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-09-03
+## 008
 ### Task
 - ローカル保存セッションに `user_id` と `success` を付与し、履歴ページにユーザー別フィルタと集計ダッシュボードを追加
   - refs: [providers/storage_local.py, app/pages/history.py]
@@ -133,7 +133,7 @@
 - `pytest -q` を実行（結果は下記参照）
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-09-04
+## 009
 ### Task
 - `.dockerignore` を追加し、`tests/`, `logs/`, `.git/` などを除外
   - refs: [.dockerignore]
@@ -153,7 +153,7 @@
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
 
-## 2025-09-05
+## 010
 ### Task
 - ストレージプロバイダにCSV/JSONエクスポート機能を追加し、履歴ページからダウンロード可能にした
   - refs: [providers/storage_local.py, providers/storage_gcs.py, app/pages/history.py, app/translations.py, tests/test_storage_local.py]
@@ -168,7 +168,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-08-29
+## 011
 ### Task
 - クイックスタートモード時に最小必須項目のみで事前アドバイスを開始できるよう入力フォームを改修
   - refs: [app/pages/pre_advice.py, app/translations.py]
@@ -183,7 +183,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-08-29
+## 012
 ### Task
 - フィールドラベルのハードコードを翻訳キーに置き換え、辞書とREADMEに命名規則を追加
   - refs: [app/pages/pre_advice.py, app/pages/post_review.py, app/translations.py, README.md]
@@ -198,7 +198,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-09-06
+## 013
 ### Task
 - Dockerfile に curl のインストールとヘルスチェックを追加し、docker-compose のテストコマンドを curl -fsS に変更
   - refs: [Dockerfile, docker-compose.yml]
@@ -215,7 +215,7 @@
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
 
-## 2025-09-07
+## 014
 ### Task
 - モバイル最適化CSSを `app/ui.py` から `app/static/responsive.css` へ移動し、外部ファイルとして読み込むよう変更
   - refs: [app/ui.py, app/static/responsive.css]
@@ -232,7 +232,7 @@
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
 
-## 2025-09-08
+## 015
 ### Task
 - Dockerfile をマルチステージ化し、依存関係をビルドステージでインストール
 - README に `make docker-build` の手順を追記
@@ -249,7 +249,7 @@
 - `make docker-build` （Docker デーモンに接続できず失敗）
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-09-09
+## 016
 ### Task
 - CRM API クライアントを実装し、事前アドバイスページに「CRMから読み込む」ボタンを追加
   - refs: [services/crm_importer.py, app/pages/pre_advice.py]
@@ -267,7 +267,7 @@
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
 
-## 2025-09-10
+## 017
 ### Task
 - ローカルテスト指示書を追加し、AGENT.mdに追記
   - refs: [Localtest.md, AGENT.md]
@@ -282,7 +282,7 @@
 - `pytest -q` で 101 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-09-11
+## 018
 ### Task
 - README を起動手順・環境変数・テスト方法で補強し、Makefile に run/test/lint ターゲットを整備してフェーズ7を完了
   - refs: [README.md, Makefile, AGENT.md]
@@ -299,7 +299,7 @@
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
 
-## 2025-09-12
+## 019
 ### Task
 - Firestore 向けストレージプロバイダを追加し、`tenants/{tenant_id}/sessions/{session_id}` パスでデータを保存・取得できるよう実装
   - refs: [providers/storage_firestore.py, services/storage_service.py, tests/test_storage_service.py, requirements.txt, env.example]
@@ -314,7 +314,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0, google-cloud-firestore==2.21.0
 
-## 2025-09-13
+## 020
 ### Task
 - Cloud Run 用ディレクトリを追加し、Dockerfile と cloudrun.yaml を配置
 - Cloud Run へのデプロイ手順を README に追記し、Makefile に deploy-cloudrun ターゲットを追加
@@ -328,7 +328,7 @@
 - `make docker-build` (Docker がインストールされておらず失敗)
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-09-14
+## 021
 ### Task
 - Remove legacy pre-advice page function
   - refs: [app/pages/pre_advice.py] (ef5120a)
@@ -343,7 +343,7 @@
 - `pytest tests/test_pre_advice.py`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-09-15
+## 022
 ### Task
 - モバイル表示のサイドバートグルボタンにテキストラベルを追加し、翻訳キーを整備
   - refs: [app/ui.py, app/translations.py]
@@ -360,7 +360,7 @@
 - `streamlit run app/ui.py`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-09-16
+## 023
 ### Task
 - ストレージサービスで環境変数取得のため `os` を明示的にインポートし、標準ライブラリとローカルモジュールのグルーピングを整理
   - refs: [services/storage_service.py]
@@ -375,7 +375,7 @@
 - `pytest -q tests/test_storage_service.py`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-09-17
+## 024
 ### Task
 - `APP_ENV=gcp` で Firestore を選択する分岐を追加
   - refs: [services/storage_service.py]
@@ -396,7 +396,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-09-20
+## 025
 ### Task
 - Cloud Run 用 YAML に Firestore/Secret Manager の環境変数を追加し、デプロイスクリプトを更新
   - refs: [cloudrun/cloudrun.yaml, Makefile]
@@ -415,7 +415,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-09-22
+## 026
 ### Task
 - モバイルメニューのトグルボタンをカスタムHTMLに置き換え、`aria-label="メニュー"` を付与
   - refs: [app/ui.py]
@@ -430,7 +430,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-09-23
+## 027
 ### Task
 - セッション保存関数が `session_id` を返し、保存ボタンでその ID を表示するよう修正
   - refs: [app/pages/icebreaker.py]
@@ -445,7 +445,7 @@
 - `make lint`
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
-## 2025-09-24
+## 028
 ### Task
 - フェーズ8開発開始のため、AGENT.mdとWORKLOG.mdを確認し環境と方針を整理。
 ### Reviews
@@ -458,7 +458,7 @@
 - `pytest -q` で 129 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-09-30
+## 029
 ### Task
 - Cloud Runで`GOOGLE_APPLICATION_CREDENTIALS`が未設定でもFirestoreが動作するよう修正し、テストとドキュメントを追加
   - refs: [services/storage_service.py, tests/test_storage_service.py, README.md, env.example, GOOGLE_CLOUD_MIGRATION.md]
@@ -474,7 +474,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-10-01
+## 030
 ### Task
 - AGENT.md と WORKLOG.md に UsageMeter と GCS テナントプレフィックスの進捗を追記し、PROGRESS.md を更新
   - refs: [AGENT.md, WORKLOG.md, docs/PROGRESS.md]
@@ -488,7 +488,7 @@
 ### Testing
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
-## 2025-10-02
+## 031
 ### Task
 - Phase 8 development kickoff: reviewed AGENT.md and WORKLOG.md to confirm goals and progress.
 ### Reviews
@@ -501,7 +501,7 @@
 - `pytest -q` で 130 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-10-03
+## 032
 ### Task
 - ローカルストレージにテナント別ディレクトリを導入し、ストレージサービスとテストを更新
   - refs: [providers/storage_local.py, services/storage_service.py, tests/test_storage_local.py]
@@ -517,7 +517,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-10-04
+## 033
 ### Task
 - ストレージ用テナントID環境変数を `env.example` と `README.md` に追記し、ローカルストレージのテナント設定テストを追加
   - refs: [env.example, README.md, tests/test_storage_service.py, docs/PROGRESS.md, AGENT.md]
@@ -533,7 +533,7 @@
 - `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1, google-cloud-secret-manager==2.24.0
 
-## 2025-10-05
+## 034
 ### Task
 - **フェーズ9：LLMシステム完全改善の実施**
 - ✅ **完了**: GPT-4.1-mini-2025-04-14へのモデル移行
@@ -655,7 +655,7 @@
 - パフォーマンス最適化
 - 設定管理改善
 
-## 2025-01-XX
+## 035
 ### Task
 - **コード修正計画の完了**: GoogleレベルのPythonエンジニア視点での4段階コードレビュー完了
   - **Phase 1**: 可読性改善（長いファイルのリファクタリング） ✓完了
@@ -730,7 +730,7 @@
 - パフォーマンステストの実施
 - ドキュメントの更新
 
-## 2025-09-03
+## 036
 ### Task
 - PreAdvisorService をテスト互換の軽量実装に差し替え、pre_advice ページのヘルパー関数を再エクスポート
 - OpenAIProvider ラッパーでモード設定・エラー処理・キャッシュ無効化を調整し、トークン使用量と例外処理を修正
@@ -747,7 +747,7 @@
 - `pytest` で 133 件のテストが成功
 - Environment: Python 3.12.10, streamlit==1.49.0, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
 
-## 2025-10-06
+## 037
 ### Task
 - PostAnalyzerService を DI コンテナ対応にリファクタリングし、パフォーマンステストを追加
 - README に PostAnalyzerService と PoC ランチャーの手順を記載
@@ -762,4 +762,34 @@
 ### Testing
 - `pytest -q`
 - `pytest tests/performance/test_post_analyzer.py -q`
+- Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
+
+## 038
+### Task
+- Webリサーチ機能を実装し、CSE/NewsAPI/ハイブリッド検索をサポート
+  - refs: [providers/search_provider.py, providers/search_enhancer.py, app/pages/settings.py, docs/WEB_SEARCH.md]
+
+### Reviews
+1. **Python上級エンジニア視点**: WebSearchProvider の実装により検索ロジックが一元化され、拡張が容易になった。
+2. **UI/UX専門家視点**: 設定画面から検索プロバイダを選択でき、ユーザーの操作性が向上した。
+3. **クラウドエンジニア視点**: 外部APIキーを環境変数で管理し、セキュアなデプロイが可能になった。
+4. **ユーザー視点**: 業界ニュースやウェブ情報が自動で取り込まれ、商談準備が効率化された。
+
+### Testing
+- `pytest -q`
+- Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
+
+## 039
+### Task
+- Webリサーチ実装の記録を反映した PR を作成
+  - refs: [AGENT.md, WORKLOG.md]
+
+### Reviews
+1. **Python上級エンジニア視点**: ドキュメントの最新化により履歴の追跡が容易になった。
+2. **UI/UX専門家視点**: 作業番号で整理されたログに PR 情報が加わり、可読性が維持された。
+3. **クラウドエンジニア視点**: 変更内容が明確に記録され、デプロイ前の確認が効率化された。
+4. **ユーザー視点**: 進捗が透明化され、プロジェクトの状況を安心して把握できる。
+
+### Testing
+- `pytest -q`
 - Environment: Python 3.12.10, streamlit==1.49.1, pydantic==2.11.7, jinja2==3.1.6, httpx==0.28.1, python-dotenv==1.1.1, openai==1.102.0, tenacity==9.1.2, pytest==8.4.1
