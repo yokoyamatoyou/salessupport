@@ -1,49 +1,46 @@
 @echo off
-chcp 65001
+chcp 65001 >nul
 echo ========================================
-echo Sales SaaS アプリ起動
+echo Sales SaaS App Startup
 echo ========================================
 
-REM 仮想環境の存在確認
+REM Check for virtual environment
 if not exist "venv" (
-    echo ❌ 仮想環境が見つかりません
-    echo    まず setup_venv.bat を実行してください
+    echo [ERROR] Virtual environment not found
+    echo        Run setup_venv.bat first
     pause
     exit /b 1
 )
 
-REM 仮想環境有効化
-echo 🔧 仮想環境を有効化しています...
+REM Activate virtual environment
+echo Activating virtual environment...
 call "venv\Scripts\activate.bat"
 if errorlevel 1 (
-    echo ❌ 仮想環境の有効化に失敗しました
+    echo [ERROR] Failed to activate virtual environment
     pause
     exit /b 1
 )
 
-REM APIキー確認
+REM Check API key
 if not defined OPENAI_API_KEY (
-    echo ⚠️  OPENAI_API_KEYが設定されていません
-    echo    .envファイルまたは環境変数を設定してください
+    echo [WARN] OPENAI_API_KEY is not set
+    echo        Set an .env file or environment variable
     echo.
-    echo 続行しますか？ (Y/N)
-    set /p choice=
-    if /i not "!choice!"=="Y" (
-        echo 起動をキャンセルしました
+    set /p choice=Continue anyway? (Y/N) :
+    if /i not "%choice%"=="Y" (
+        echo Startup cancelled
         pause
         exit /b 1
     )
 ) else (
-    echo ✅ OpenAI APIキーが設定されています
+    echo [INFO] OpenAI API key detected
 )
 
-REM Streamlit起動
-echo 🚀 Streamlitアプリを起動しています...
+REM Launch Streamlit
+echo Starting Streamlit...
 echo.
-echo ブラウザで以下のURLにアクセスしてください:
-echo   http://localhost:8501
-echo.
-echo 終了するには Ctrl+C を押してください
+echo Open http://localhost:8501 in your browser
+echo Press Ctrl+C to stop.
 echo.
 
 streamlit run "app/ui.py" --server.headless true --server.port 8501

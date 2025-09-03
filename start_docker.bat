@@ -7,41 +7,41 @@ echo ========================================
 REM Dockerの存在確認
 docker --version >nul 2>&1
 if errorlevel 1 (
-    echo ❌ Dockerが見つかりません
+    echo [ERROR] Dockerが見つかりません
     echo    Docker Desktopをインストールしてください
     echo    https://www.docker.com/products/docker-desktop
     pause
     exit /b 1
 )
 
-echo ✅ Dockerがインストールされています
+echo Dockerがインストールされています
 
 REM docker-composeの存在確認
 docker-compose --version >nul 2>&1
 if errorlevel 1 (
-    echo ❌ docker-composeが見つかりません
+    echo [ERROR] docker-composeが見つかりません
     echo    Docker Desktopに含まれています
     pause
     exit /b 1
 )
 
-echo ✅ docker-composeが利用可能です
+echo docker-composeが利用可能です
 
 REM .envファイル確認
 if not exist ".env" (
     if exist env.example (
-        echo 📋 .envファイルをコピーしています...
+        echo .envファイルをコピーしています...
         copy env.example .env
-        echo ✅ .envファイルを作成しました
-        echo ⚠️  .envファイルのAPIキーを設定してください
+        echo .envファイルを作成しました
+        echo [WARN] .envファイルのAPIキーを設定してください
     ) else (
-        echo ❌ .envファイルとenv.exampleが見つかりません
+        echo [ERROR] .envファイルとenv.exampleが見つかりません
         echo    環境変数を手動で設定してください
     )
 )
 
 REM Dockerコンテナ起動
-echo 🐳 Dockerコンテナを起動しています...
+echo Dockerコンテナを起動しています...
 echo.
 echo ブラウザで以下のURLにアクセスしてください:
 echo   http://localhost:8080
